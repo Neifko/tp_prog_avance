@@ -3,7 +3,12 @@
 > GUILLERAY Victor  
 > INF3FA  
 
+## TP0
+https://docs.google.com/document/d/1r0L3JKQ7UOadBcObPoSn3bUpckpMJYGbU_cf3JRc0bY/edit
+
 ## TP1
+
+### Exercice 1 : 
 
 On commence par la conception,
 Diagramme et analyse disponible dans le dossier conception.
@@ -19,5 +24,9 @@ UnMobile a une méthode run, c'est donc un thread
 Largeur et hauteur de la fenetre n'est pas static car on 
 souhaiterait en creer de taille differente
 
+### Exercice 2 : 
+
+On ajoute un bouton pour suspendre ou reprendre l'execution 
+des processus.
 
 
