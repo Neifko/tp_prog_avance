@@ -1,4 +1,4 @@
-package org.example;
+package tp.mobile;
 
 import java.awt.*;
 import javax.swing.*;

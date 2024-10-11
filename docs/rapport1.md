@@ -30,3 +30,10 @@ On ajoute un bouton pour suspendre ou reprendre l'execution
 des processus.
 
 
+## TP 2 :
+
+Ressource critique, section critique et Exclusion mutuelle.
+
+Verrou MUTEX -> synchronized
+
+
