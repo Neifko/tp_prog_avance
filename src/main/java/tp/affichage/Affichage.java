@@ -14,7 +14,7 @@ class Exclusion {
 public class Affichage extends Thread {
     String texte;
 
-//    static Exclusion exclusionMutuelle = new Exclusion();
+    static Exclusion exclusionMutuelle = new Exclusion();
 
     public Affichage(String txt) {
         texte = txt;
@@ -22,7 +22,7 @@ public class Affichage extends Thread {
 
     public void run() {
 
-//        synchronized (exclusionMutuelle) { //section critique
+        synchronized (System.out) { //section critique
             for (int i = 0; i < texte.length(); i++) {
                 System.out.print(texte.charAt(i));
                 try {
@@ -31,6 +31,6 @@ public class Affichage extends Thread {
                 }
                 ;
             }
-//        }
+        }
     }
 }

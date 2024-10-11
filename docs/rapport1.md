@@ -36,4 +36,5 @@ Ressource critique, section critique et Exclusion mutuelle.
 
 Verrou MUTEX -> synchronized
 
+On synchronise system.out car il s'agit de la ressource critique
 
