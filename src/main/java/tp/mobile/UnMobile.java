@@ -7,7 +7,7 @@ class UnMobile extends JPanel implements Runnable {
     int saLargeur, saHauteur, sonDebDessin;
     final int sonPas = 10, sonTemps = (int) Math.round(Math.random() * 100), sonCote = 40; // (int) Math.round(Math.random() * 100) || 50
 
-    static semaphoreBinaire sem = new semaphoreBinaire(1);
+    static semaphoreGeneral sem = new semaphoreGeneral(2);
 
     UnMobile(int telleLargeur, int telleHauteur) {
         super();
