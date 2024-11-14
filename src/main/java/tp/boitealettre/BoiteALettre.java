@@ -1,42 +1,34 @@
 package tp.boitealettre;
 
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
+
 /**
  *
  */
 public class BoiteALettre {
 
-    /**
-     * Default constructor
-     */
-    public BoiteALettre() {
-    }
+    private BlockingQueue<Character> queue = new ArrayBlockingQueue<Character>(20);
 
     /**
      *
      */
-    private char lettre;
-
-    /**
-     *
-     */
-    private boolean boiteVide = true;
-
-    /**
-     *
-     */
-    public synchronized void deposer(char lettreAPoster) {
-        boiteVide = false;
-        lettre = lettreAPoster;
+    public boolean deposer(Character lettreAPoster) throws InterruptedException {
+        return queue.offer(lettreAPoster, 200, TimeUnit.MILLISECONDS);
 
     }
 
     /**
      *
      */
-    public synchronized char retirer() {
-        boiteVide = true;
-        return lettre;
+    public Character retirer() throws InterruptedException {
+        return queue.poll(200, TimeUnit.MILLISECONDS);
+    }
+
+    public int getQueueSize() {
+        return queue.size();
     }
 
 }
