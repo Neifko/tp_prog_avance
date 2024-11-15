@@ -1,7 +1,8 @@
-# Programmation parallèle sur machine à mémoire partagée
+# Programmation parallèle sur machine à mémoire partagée RAPPORT 1
 
 > GUILLERAY Victor  
 > INF3FA  
+> 15/11/2024  
 
 ## Introduction
 
@@ -23,7 +24,7 @@ On doit réaliser les tests et la gestion de version GIT du projet, comme indiqu
 
 Avec la conception et le code.
 
-Le tout divisé en 2 rapports qui contiennnt : une synthèse synthèse de cours des tp, et un rapport des tp.
+Le tout divisé en 2 rapports qui contiennnt : une synthèse de cours des tp, et un rapport des tp.
 
 Et pour la vérification des acquis un controle toutes les 5 seances (2 controles en tout).
 
@@ -236,18 +237,17 @@ fois, car il se fait rejeter le temps que le tampon se vide, ensuite les dernier
 puis le caractère d'arrêt le processus se terminent.
 
 
-## Modèles et paradigmes de programmation parallèle
 
-Nous avons fait le début du cours, voici les premières notes.
+## Séance 5
 
-Méthode à suivre pour passer d'un code séquentiel à un code en parallèle
+On voit que la classe Boulanger utilisé est une interface de la classe BlockingQueue car la queue est un moniteur 
+en soit.
+La blocking queue est une manière plus complexe que nous pour la parallélisation.
 
-Paradigmes : structures algorithmiques
-donc ne pas mélanger modèle et paradigme
+La variable lettre qui était dans la BoiteALettre a disparu, car elle est en tant que buffer dans la queue.
 
-2 aspects en séquentielle
-en parallèle, il y a 3 aspects
-SIMD ou MIMD
+En faisant notre adaptation de la BoiteALettre, on a un wrapper de la BlockingQueue avec la BAL.
+
 
 
 ## Conclusion
@@ -255,7 +255,8 @@ SIMD ou MIMD
 Pour conclure, nous avons vu les différents matériels permettant la programmation parallèle et surtout l'évolution
 de ces matériels. Nous avons vu les bases et les différentes manières de gérer la programmation parallèle.
 Et donc d'exécuter des processus en parallèle et de les manipuler.
-On a découvert la classe Thread de Java, puis l'utilisation de synchronized, des sémaphores et des moniteurs.
+On a découvert la classe Thread de Java, puis l'utilisation de synchronized, des sémaphores et des moniteurs. Et 
+l'encapsulation des BlockingQueues par notre propre moniteur.
 Nous avons vu comment les appliquer sur nos programmes et les avantages et inconvénients de chacun.
 
 ## Sources

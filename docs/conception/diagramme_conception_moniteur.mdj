@@ -1189,16 +1189,16 @@
 										"$ref": "AAAAAAGSwv+p3E8/S6Y="
 									},
 									"font": "Arial;13;0",
-									"left": 96,
+									"left": 93,
 									"top": 314,
-									"width": 68.9990234375,
+									"width": 74.4326171875,
 									"height": 13,
 									"alpha": -0.8176183915444739,
 									"distance": 51.264022471905186,
 									"hostEdge": {
 										"$ref": "AAAAAAGSwv+p3E9B1jw="
 									},
-									"text": "-chMonitor"
+									"text": "-boiteALettre"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -1462,16 +1462,16 @@
 										"$ref": "AAAAAAGSwwFxpVMEPDQ="
 									},
 									"font": "Arial;13;0",
-									"left": 248,
+									"left": 243,
 									"top": 311,
-									"width": 64.669921875,
+									"width": 74.4326171875,
 									"height": 13,
 									"alpha": 0.7060198679656071,
 									"distance": 50.59644256269407,
 									"hostEdge": {
 										"$ref": "AAAAAAGSwwFxplMGz8c="
 									},
-									"text": "-chMonitor"
+									"text": "-boiteALettre"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -1663,7 +1663,8 @@
 								"$ref": "AAAAAAGSwv3UYk5Q1xc="
 							},
 							"name": "lettre",
-							"visibility": "private"
+							"visibility": "private",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1672,7 +1673,8 @@
 								"$ref": "AAAAAAGSwv3UYk5Q1xc="
 							},
 							"name": "available",
-							"visibility": "private"
+							"visibility": "private",
+							"type": ""
 						}
 					],
 					"operations": [
@@ -1740,7 +1742,7 @@
 								"_parent": {
 									"$ref": "AAAAAAGSwv+p3E89Q7w="
 								},
-								"name": "chMonitor",
+								"name": "boiteALettre",
 								"reference": {
 									"$ref": "AAAAAAGSwv3UYk5Q1xc="
 								},
@@ -1758,7 +1760,8 @@
 								"$ref": "AAAAAAGSwv7Pm06WYds="
 							},
 							"name": "lettreAPoster",
-							"visibility": "private"
+							"visibility": "private",
+							"type": ""
 						}
 					],
 					"operations": [
@@ -1816,7 +1819,7 @@
 								"_parent": {
 									"$ref": "AAAAAAGSwwFxpVMCazE="
 								},
-								"name": "chMonitor",
+								"name": "boiteALettre",
 								"reference": {
 									"$ref": "AAAAAAGSwv3UYk5Q1xc="
 								},
@@ -1834,7 +1837,8 @@
 								"$ref": "AAAAAAGSwv8gbE7GQn8="
 							},
 							"name": "lettreRecupere",
-							"visibility": "private"
+							"visibility": "private",
+							"type": ""
 						}
 					],
 					"operations": [
