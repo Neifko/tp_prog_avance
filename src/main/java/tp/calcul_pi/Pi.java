@@ -1,5 +1,8 @@
 package tp.calcul_pi;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,9 +19,10 @@ import java.util.concurrent.Future;
 public class Pi {
     public static void main(String[] args) throws Exception {
         long total = 0;
-        // 10 workers, 50000 iterations each
-        total = new Master().doRun(50000, 10);
-        System.out.println("total from Master = " + total);
+        int n_total = 100000000;
+        int n_proc = 8;
+
+        total = new Master().doRun(n_total/n_proc, n_proc);
     }
 }
 
@@ -52,14 +56,31 @@ class Master {
 
         long stopTime = System.currentTimeMillis();
 
-        System.out.println("\nPi : " + pi);
-        System.out.println("Error: " + (Math.abs((pi - Math.PI)) / Math.PI) + "\n");
+        System.out.println("\nValeur approché: " + pi);
+        System.out.println("Erreur: " + String.format("%e", (Math.abs((pi - Math.PI)) / Math.PI)));
 
-        System.out.println("Ntot: " + totalCount * numWorkers);
-        System.out.println("Available processors: " + numWorkers);
-        System.out.println("Time Duration (ms): " + (stopTime - startTime) + "\n");
+        System.out.println("N total: " + totalCount * numWorkers);
+        System.out.println("Nombre process: " + numWorkers);
+        System.out.println("Temps d'execution: " + (stopTime - startTime) + "ms");
 
-        System.out.println((Math.abs((pi - Math.PI)) / Math.PI) + " " + totalCount * numWorkers + " " + numWorkers + " " + (stopTime - startTime));
+        try {
+            // Code tiré d'openclassroom
+            // Création d'un fileWriter pour écrire dans un fichier
+            FileWriter fileWriter = new FileWriter("./out_pimw_g26_4c.txt", true);
+
+            // Création d'un bufferedWriter qui utilise le fileWriter
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+
+            // ajout d'un texte à notre fichier
+            writer.write(String.format("%e", (Math.abs((pi - Math.PI)) / Math.PI)) + " " + (totalCount * numWorkers) + " " + numWorkers + " " + (stopTime - startTime));
+
+            // Retour à la ligne
+            writer.newLine();
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         exec.shutdown();
         return total;
