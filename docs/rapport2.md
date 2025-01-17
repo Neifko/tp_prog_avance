@@ -150,7 +150,7 @@ ntot/2 + 3/4 * ntot
 Le super lineaire existe seulement quand la charge processeur est beaucoup trop haute en sequentiel;
 proc doit recup info du tableau dans la ram, si tableau petit alors il le met dans le cache et travaille que dans le 
 cache mais si tableau tres grand alors doit le saucissonner et mettre bout de tableau un par un dans le cache et
-dans la ram pour pouvouir le traiter en entier, processus font des aller retour cahce ram cache ram qui prennent 
+dans la ram pour pouvouir le traiter en entier, processus font des aller retour cache ram cache ram qui prennent 
 du temps, avantage des worker qui peuvent chacun avoir un morceau qui rentre dans le cache
 
 ### Consignes : 
@@ -166,10 +166,35 @@ erreur piapproc - piexact / piexact ; ntot ; nb process; temps exec ;
 3) speedup grossier, est ce que le code se comporte comme attendu ; voir l'evolution du temps au fur et a mesure
 
 
+Voir les txt out.txt
+
+
+### Resume : 
+#### Sur architecture a memoire partage
+prog parallele et distribuee
+concurrence
+architecture memoire partagé
+java thread
+monte carlo avec api concurrent -> modele et paradigme de programmation parallele
+on peut pas avoir plus de coeur physique ou de coeur logique
+
+il faut augmenter les ressources physique en utilisant d'autres machines
+
+#### Sur architecture a memoire distribue
+utilisation des sockets java sur plusieurs machines
 
 
 
+### Suite :
 
+
+faire un cours sur les sockets dans le rapport et petit document de conception sur l'explication du worker et master
+
+On peut lancer plusieurs worker en cochant la case allow multiple instances, on peut lui mettre un arguement pour
+l'execution, on met le port d'écoute du worker
+Il reste à implementer le montecarlo
+
+Le master on l'execute et on lui donne le nombre de machine et le port des machines
 
 
 
