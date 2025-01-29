@@ -46,9 +46,19 @@ class PiMonteCarlo {
 
 public class Assignment102 {
     public static void main(String[] args) {
-        int n_total = 100000000;
-        int n_proc = 7;
+        int[] n_total = {12000, 12000000, 120000000};
+        int n_proc = 1;
 
+        for (int k : n_total) {
+            for (n_proc = 1; n_proc <= 6; n_proc++) {
+                for (int j = 0; j < 10; j++) {
+                    execute(k, n_proc);
+                }
+            }
+        }
+    }
+
+    public static void execute(int n_total, int n_proc){
         PiMonteCarlo PiVal = new PiMonteCarlo(n_total, n_proc);
 
         long startTime = System.currentTimeMillis();
@@ -80,7 +90,5 @@ public class Assignment102 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }

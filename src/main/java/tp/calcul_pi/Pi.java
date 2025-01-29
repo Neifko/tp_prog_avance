@@ -19,10 +19,18 @@ import java.util.concurrent.Future;
 public class Pi {
     public static void main(String[] args) throws Exception {
         long total = 0;
-        int n_total = 100000000;
-        int n_proc = 8;
+        int[] n_total = {12000, 12000000, 120000000};
+        int n_proc = 1;
 
-        total = new Master().doRun(n_total/n_proc, n_proc);
+        for (int k : n_total) {
+            for (n_proc = 1; n_proc <= 6; n_proc++) {
+                for (int j = 0; j < 10; j++) {
+                    total = new Master().doRun(k / n_proc, n_proc);
+
+                }
+            }
+        }
+
     }
 }
 

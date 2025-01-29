@@ -132,9 +132,9 @@ atomic et donc objet qui protege un entier avec des points d'entrer comme increm
 tc temps calcul theorique different a chaque fois
 
 Temps d'execution : 
-T1 = ntot * ti
+T1 = ntot * ti                # temps d'execution mesurer avec 1 processus
 T2 = ntot/2 * ti + (tc2)
-Tp = ntot/p * ti + (tcp)
+Tp = ntot/p * ti + (tcp)      # temps mesurer avec plusieurs processus
 Sp = T1/Tp  = (ntot*ti) / (ntot/p * ti) + (tc)
 
 on croit aller p fois plus vite
@@ -196,6 +196,14 @@ Il reste à implementer le montecarlo
 
 Le master on l'execute et on lui donne le nombre de machine et le port des machines
 
+## Evaluation de la performance
+
+scalabilité etc resume de qualité de developpement
+
+
+lire le fichier texte et calculer le sp et les moyenne de tp etc et faire un plot
+
+Sp = speedup
 
 
 
