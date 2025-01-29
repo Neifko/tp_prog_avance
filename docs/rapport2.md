@@ -137,6 +137,10 @@ T2 = ntot/2 * ti + (tc2)
 Tp = ntot/p * ti + (tcp)      # temps mesurer avec plusieurs processus
 Sp = T1/Tp  = (ntot*ti) / (ntot/p * ti) + (tc)
 
+Sp = speedup
+
+Tp = le temps moyen pour le nombre de processus p
+
 on croit aller p fois plus vite
 
 c'est scalabilité forte (voir cahier) zone negative veut dire je ralenti
@@ -203,7 +207,7 @@ scalabilité etc resume de qualité de developpement
 
 lire le fichier texte et calculer le sp et les moyenne de tp etc et faire un plot
 
-Sp = speedup
+
 
 
 

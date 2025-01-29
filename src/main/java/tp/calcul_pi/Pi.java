@@ -19,17 +19,34 @@ import java.util.concurrent.Future;
 public class Pi {
     public static void main(String[] args) throws Exception {
         long total = 0;
-        int[] n_total = {12000, 12000000, 120000000};
-        int n_proc = 1;
+        int[] n_total = {12000, 12000000, 120000000}; // 12000, 12000000, 120000000
+        int n_total_faible = 25000000; // 15000000, 25000000
+        int[] n_proc = {1, 2, 3, 4, 5, 6, 8, 10, 12}; // 1, 2, 3, 4, 5, 6, 8, 10, 12
+        String filename = "./out_pimw_g26_4c_faible.txt"; // "./out_pimw_g26_4c.txt" forte | "./out_pimw_g26_4c_faible.txt" faible
 
-        for (int k : n_total) {
-            for (n_proc = 1; n_proc <= 6; n_proc++) {
+        boolean scalabilite_forte = false;
+
+        if (scalabilite_forte) {
+            // Scalabilité forte
+            for (int k : n_total) {
+                for (int n : n_proc) {
+                    for (int j = 0; j < 10; j++) {
+                        total = new Master().doRun(k / n, n, filename);
+
+                    }
+                }
+            }
+        } else {
+            // scalabilite faible
+            for (int n : n_proc) {
                 for (int j = 0; j < 10; j++) {
-                    total = new Master().doRun(k / n_proc, n_proc);
+                    total = new Master().doRun(n_total_faible, n, filename);
 
                 }
             }
+
         }
+
 
     }
 }
@@ -39,7 +56,7 @@ public class Pi {
  * and aggregates the results.
  */
 class Master {
-    public long doRun(int totalCount, int numWorkers) throws InterruptedException, ExecutionException {
+    public long doRun(int totalCount, int numWorkers, String filename) throws InterruptedException, ExecutionException {
 
         long startTime = System.currentTimeMillis();
 
@@ -74,7 +91,7 @@ class Master {
         try {
             // Code tiré d'openclassroom
             // Création d'un fileWriter pour écrire dans un fichier
-            FileWriter fileWriter = new FileWriter("./out_pimw_g26_4c.txt", true);
+            FileWriter fileWriter = new FileWriter(filename, true);
 
             // Création d'un bufferedWriter qui utilise le fileWriter
             BufferedWriter writer = new BufferedWriter(fileWriter);
