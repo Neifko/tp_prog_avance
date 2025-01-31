@@ -11,7 +11,7 @@ public class MasterSocket {
     static final int[] tab_port = {25545, 25546, 25547, 25548, 25549, 25550, 25551, 25552};
     static final int initial_port = 25545;
     static String[] tab_total_workers = new String[maxServer];
-    static final String ip = "127.0.0.1";
+    static final String[] ip = {"127.0.0.1"};
     static BufferedReader[] reader = new BufferedReader[maxServer];
     static PrintWriter[] writer = new PrintWriter[maxServer];
     static Socket[] sockets = new Socket[maxServer];
@@ -66,7 +66,7 @@ public class MasterSocket {
         //create worker's socket
         for (int i = 0; i < numWorkers; i++) {
             try {
-                sockets[i] = new Socket(ip, initial_port + i);
+                sockets[i] = new Socket(ip[i], initial_port + i);
                 System.out.println("SOCKET = " + sockets[i]);
 
                 reader[i] = new BufferedReader(new InputStreamReader(sockets[i].getInputStream()));
