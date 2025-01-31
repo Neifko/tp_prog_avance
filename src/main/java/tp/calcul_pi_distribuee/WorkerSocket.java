@@ -1,5 +1,7 @@
 package tp.calcul_pi_distribuee;
 
+import tp.calcul_pi.Master;
+
 import java.io.*;
 import java.net.*;
 import java.util.Random;
@@ -38,7 +40,11 @@ public class WorkerSocket {
 
 //                str = bRead.readLine();
 
-                circleCount = makeIteration(Integer.parseInt(str));
+//                circleCount = makeIteration(Integer.parseInt(str));
+
+                Master master = new Master();
+                int numWorker = 1;
+                circleCount = master.doRun(Integer.parseInt(str)/numWorker, numWorker);
 
                 pWrite.println(circleCount.toString());         // send number of points in quarter of disk
             } else {
