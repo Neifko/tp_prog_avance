@@ -229,6 +229,14 @@ Faire un dessin explication de la parallelisation a plusieurs niveau
 
 Critere qualité reutilisation de composant, reutilisation de pi.java
 
+### Execution distribuée
+
+sur centos car windows bloque les comm entre machine
+
+on desactive firewall de centos `sudo systemctl stop firewalld`
+
+on execute les workers puis on execute le master avec les ips des machines workers
+
 
 
 
