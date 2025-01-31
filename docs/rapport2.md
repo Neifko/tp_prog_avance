@@ -110,7 +110,7 @@ Executor a algorithme pour vol de tache, ordonnancement, etc
 
 Analyser chaque code (pi monte carlo) + diagramme de classe
 
-Quel algorithme est implmenter, quelle paradigme
+Quel algorithme est implementer, quelle paradigme
 
 On avait vu les Future -> objet qui stock les resultats pour les donner, dans concurrent c'est on a besoin d'un 
 runnable qui renvoie un resultat => callable donc thread qui renvoie un resultat
@@ -207,6 +207,27 @@ scalabilité etc resume de qualité de developpement
 
 lire le fichier texte et calculer le sp et les moyenne de tp etc et faire un plot
 
+
+## Reutilisation de composant logiciel
+
+On argumente pour choisir de reutiliser pi.java (en utilisant les experiences)
+
+integrer le monte carlo de pi avec de la conception pour appeler le code et le mettre dans masterworker
+
+on commence avec 4 worker avec 1 thread pi.java par worker pour les 4 coeurs mais plus tard 1 worker avec 4 thread 
+sur pi.java
+
+1) Validation MC avec javasocket
+2) Conception integrer pi.java dans worker socket
+3) Validation 
+4) Scalabilité sur 1 poste
+5) Mise en oeuvre sur N postes
+
+Faire le diagramme de classe
+
+Faire un dessin explication de la parallelisation a plusieurs niveau
+
+Critere qualité reutilisation de composant, reutilisation de pi.java
 
 
 

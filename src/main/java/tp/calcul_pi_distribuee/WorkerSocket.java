@@ -31,20 +31,23 @@ public class WorkerSocket {
 
         // PrintWriter pWrite for writing message to Master
         PrintWriter pWrite = new PrintWriter(new BufferedWriter(new OutputStreamWriter(soc.getOutputStream())), true);
-        String str;
+        String str, str2;
         Long circleCount;
         while (isRunning) {
             str = bRead.readLine();          // read message from Master
+            int totalCount = Integer.parseInt(str);
+
             if (!(str.equals("END"))) {
                 System.out.println("Server receives totalCount = " + str);
 
-//                str = bRead.readLine();
+                str2 = bRead.readLine();
+                int numWorker = Integer.parseInt(str2);
 
 //                circleCount = makeIteration(Integer.parseInt(str));
 
                 Master master = new Master();
-                int numWorker = 1;
-                circleCount = master.doRun(Integer.parseInt(str)/numWorker, numWorker);
+
+                circleCount = master.doRun(totalCount/numWorker, numWorker, "");
 
                 pWrite.println(circleCount.toString());         // send number of points in quarter of disk
             } else {

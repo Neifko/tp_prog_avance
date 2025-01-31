@@ -9,6 +9,7 @@ import java.net.*;
 public class MasterSocket {
     static int maxServer = 8; // 8
     static final int[] tab_port = {25545, 25546, 25547, 25548, 25549, 25550, 25551, 25552};
+    static final int initial_port = 25545;
     static String[] tab_total_workers = new String[maxServer];
     static final String ip = "127.0.0.1";
     static BufferedReader[] reader = new BufferedReader[maxServer];
@@ -19,11 +20,14 @@ public class MasterSocket {
     public static void main(String[] args) throws Exception {
 
         // MC parameters
-        int totalCount = 16000000; // total number of throws on a Worker
+        int totalCount = 120000000; // total number of throws on a Worker 16000000
         int total = 0; // total number of throws inside quarter of disk
         double pi;
 
+        String filename = "./out_mws_g26_4c.txt";
+
         int numWorkers = maxServer;
+        int thread_by_worker = 1;
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
         String s; // for bufferRead
 
@@ -35,6 +39,15 @@ public class MasterSocket {
         try {
             s = bufferRead.readLine();
             numWorkers = Integer.parseInt(s);
+            System.out.println(numWorkers);
+        } catch (IOException ioE) {
+            ioE.printStackTrace();
+        }
+
+        System.out.println("\n How many threads by worker : ");
+        try {
+            s = bufferRead.readLine();
+            thread_by_worker = Integer.parseInt(s);
             System.out.println(numWorkers);
         } catch (IOException ioE) {
             ioE.printStackTrace();
@@ -53,7 +66,7 @@ public class MasterSocket {
         //create worker's socket
         for (int i = 0; i < numWorkers; i++) {
             try {
-                sockets[i] = new Socket(ip, tab_port[i]);
+                sockets[i] = new Socket(ip, initial_port + i);
                 System.out.println("SOCKET = " + sockets[i]);
 
                 reader[i] = new BufferedReader(new InputStreamReader(sockets[i].getInputStream()));
@@ -63,8 +76,10 @@ public class MasterSocket {
             }
         }
 
-        String total_count_to_send;
-        total_count_to_send = String.valueOf(totalCount);
+        String total_count_to_send, thread_by_worker_to_send;
+        total_count_to_send = String.valueOf(totalCount/numWorkers);
+        thread_by_worker_to_send = String.valueOf(thread_by_worker);
+
 
         String message_repeat = "y";
 
@@ -78,6 +93,11 @@ public class MasterSocket {
             // initialize workers
             for (int i = 0; i < numWorkers; i++) {
                 writer[i].println(total_count_to_send);          // send a message to each worker
+            }
+
+            // give thread by worker
+            for (int i = 0; i < numWorkers; i++) {
+                writer[i].println(thread_by_worker_to_send);          // send a message to each worker
             }
 
             //listen to workers's message
@@ -97,11 +117,13 @@ public class MasterSocket {
             System.out.println("\nPi : " + pi);
             System.out.println("Error: " + (Math.abs((pi - Math.PI)) / Math.PI) + "\n");
 
-            System.out.println("Ntot: " + totalCount * numWorkers);
-            System.out.println("Available processors: " + numWorkers);
+            System.out.println("Ntot: " + totalCount );
+            System.out.println("Available processors: " + (numWorkers * thread_by_worker));
             System.out.println("Time Duration (ms): " + (stopTime - startTime) + "\n");
 
-            System.out.println((Math.abs((pi - Math.PI)) / Math.PI) + " " + totalCount * numWorkers + " " + numWorkers + " " + (stopTime - startTime));
+            System.out.println((Math.abs((pi - Math.PI)) / Math.PI) + " " + (totalCount ) + " " + (numWorkers * thread_by_worker) + " " + (stopTime - startTime));
+
+            writeFile(filename, pi, totalCount, numWorkers, thread_by_worker, startTime, stopTime);
 
             System.out.println("\n Repeat computation (y/N): ");
             try {
@@ -118,6 +140,28 @@ public class MasterSocket {
             reader[i].close();
             writer[i].close();
             sockets[i].close();
+        }
+    }
+
+    private static void writeFile(String filename, double pi, int totalCount, int numWorkers, int thread_by_worker, long startTime, long stopTime) throws IOException {
+        try {
+            // Code tiré d'openclassroom
+            // Création d'un fileWriter pour écrire dans un fichier
+            FileWriter fileWriter = new FileWriter(filename, true);
+
+            // Création d'un bufferedWriter qui utilise le fileWriter
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+
+            // ajout d'un texte à notre fichier
+            writer.write(String.format("%e", (Math.abs((pi - Math.PI)) / Math.PI)) + " " + (totalCount ) + " " + (numWorkers * thread_by_worker) + " " + (stopTime - startTime));
+
+            // Retour à la ligne
+            writer.newLine();
+            writer.close();
+            System.out.println("Fichier ecrit");
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

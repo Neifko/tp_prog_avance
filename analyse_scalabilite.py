@@ -45,8 +45,8 @@ def plot_speedup(speedup_data, nombre_process_data, ntot_values):
     plt.axhline(1, color='red', linestyle='--', label='Speedup = 1')
 
     # Ligne diagonale pour représenter une scalabilité idéale
-    # max_process = max(max(nombre_process) for nombre_process in nombre_process_data)
-    # plt.plot([1, max_process], [1, max_process], color='blue', linestyle='--', label='Scalabilité idéale')
+    max_process = max(max(nombre_process) for nombre_process in nombre_process_data)
+    plt.plot([1, max_process], [1, max_process], color='blue', linestyle='--', label='Scalabilité idéale')
 
     plt.legend()
     plt.grid()
@@ -56,16 +56,16 @@ def plot_speedup(speedup_data, nombre_process_data, ntot_values):
     plt.gca().set_aspect('equal', adjustable='box')
 
     # Afficher toutes les unités des axes
-    # x_ticks = np.arange(0, max_process + 1, 1)  # Ajustez l'intervalle selon vos besoins
+    x_ticks = np.arange(0, max_process + 1, 1)  # Ajustez l'intervalle selon vos besoins
     y_ticks = np.arange(0, max(max(speedup) for speedup in speedup_data) + 1, 1)  # Ajustez l'intervalle selon vos besoins
-    # plt.xticks(x_ticks)
+    plt.xticks(x_ticks)
     plt.yticks(y_ticks)
 
     plt.show()
 
 # Main
 if __name__ == "__main__":
-    file_path = 'out_pimw_g26_4c_faible.txt'  # Chemin du fichier
+    file_path = 'out_mws_g26_4c.txt'  # Chemin du fichier
 
     # Lire toutes les données
     data = read_data(file_path)
@@ -86,7 +86,7 @@ if __name__ == "__main__":
         # print(filtered_data)
 
         # Calculer le speedup pour les données filtrées
-        speedup, nombre_process = calculate_speedup(filtered_data)
+        speedup, nombre_process = calculate_speedup(filtered_data) # filtered datta or data
         # print(speedup, nombre_process)
 
         # Ajouter les résultats à la liste
