@@ -82,7 +82,17 @@ Algo des iterations parallèle
 
 Creer tache monte carlo et lui associé un thread
 
-On a choisit algo avec vole de tache car adapter ici
+trop de temps dans section critique, on peut accelerer en disant les fleches qui tombent hors de la cible
+75% on passe a 25%
+
+cependant cela n'accelere pas beaucoup
+
+On a choisit algo avec vole de tache car adapter ici cependant on passe beaucoup de temps dans les communications
+
+Le système à un nombre de tache correspondant au nombre de fleche, puis le systeme separent en p processus
+en assignant les taches au proc, cela prends beaucoup de temps quand on met une grande quantité de fleche
+
+
 
 
 ### Pour PI 
@@ -229,6 +239,9 @@ Faire un dessin explication de la parallelisation a plusieurs niveau
 
 Critere qualité reutilisation de composant, reutilisation de pi.java
 
+l'ecart entre la courbe de scalabilité et les courbes obtenu avec mws est du au latence du reseau donc pas les meme
+raison que pour masterworker du pi.java
+
 ### Execution distribuée
 
 sur centos car windows bloque les comm entre machine
@@ -238,8 +251,47 @@ on desactive firewall de centos `sudo systemctl stop firewalld`
 on execute les workers puis on execute le master avec les ips des machines workers
 
 
+## 10/02/2025
+
+### A quoi  correspondent les mesures de scalabilité dans la norme IEC 25010 ?
+
+Est ce que la scalabilité d'un code parallele permet d'evaluer un critere de qualité au sens de la norme IEC 25010 ?
+
+metrique : 
+- temps d'exec
+- Speedup
+
+tracer l'erreur de pi pour le nombre de n_cible
 
 
+Mesure de effectiveness et efficiency dans iec 25022
+
+Si le temps de ref est celui qu'on souhaite obtenir alors
+temps cible / temps calculer
+Tchap / Tp = 0,5 / 0.75 = 1/2 * 4/3 = 2/3
+exemple : si T1 = 1sec alors T2 = 0.5sec
+
+efficacité parallele
+
+a combien de pourcent est ce que on est parallele ?
+
+Tchap - Tp / Tchap
+
+On a mesuré time efficiency
+les metrique qu'on a mesurer enfaite finalement correspondent bien a nos courbes de speedup
+
+faire reference au document et au code de metrique : au sens de la norme IEC 25022
+100 % efficacité
+faire pour Pi.java et Ass102
+
+efficteveness et efficiency lequel est le meilleur ?
+
+Faire les courbes : 
+- tracer erreur en echelle log10
+
+Faire des paragraphes pour expliquer les resultats obtenus
+
+est ce que ce qu'on a calculer donne le bon resultat
 
 
 

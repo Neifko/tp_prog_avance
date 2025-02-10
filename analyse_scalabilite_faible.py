@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from six import print_
 
-
 # Fonction pour lire les données à partir d'un fichier
 def read_data(file_path):
     with open(file_path, 'r') as file:
@@ -44,56 +43,51 @@ def plot_speedup(speedup_data, nombre_process_data, ntot_values):
     plt.ylabel('Speedup')
     plt.axhline(1, color='red', linestyle='--', label='Speedup = 1')
 
-    # Ligne diagonale pour représenter une scalabilité idéale
-    max_process = max(max(nombre_process) for nombre_process in nombre_process_data)
-    plt.plot([1, max_process], [1, max_process], color='blue', linestyle='--', label='Scalabilité idéale')
-
     plt.legend()
     plt.grid()
 
     plt.xlim(left=0)
-    plt.ylim(bottom=0)  # Pour ne pas avoir de valeurs négatives sur l'axe des ordonnées
+    plt.ylim(bottom=0, top=2)  # Pour ne pas avoir de valeurs négatives sur l'axe des ordonnées
     plt.gca().set_aspect('equal', adjustable='box')
-
-    # Afficher toutes les unités des axes
-    # x_ticks = np.arange(0, max_process + 1, 1)  # Ajustez l'intervalle selon vos besoins
-    # y_ticks = np.arange(0, max(max(speedup) for speedup in speedup_data) + 1, 1)  # Ajustez l'intervalle selon vos besoins
-    # plt.xticks(x_ticks)
-    # plt.yticks(y_ticks)
 
     plt.show()
 
 # Main
 if __name__ == "__main__":
-    file_path = 'out_ass102_g26_4c.txt'  # Chemin du fichier
-    # file_path = 'out_pimw_g26_4c.txt'  # Chemin du fichier
-    # file_path = 'out_mws_g26_4c.txt'  # Chemin du fichier
+    file_paths = [
+        'out_ass102_g26_4c_faible_120000.txt',
+        'out_ass102_g26_4c_faible_1200000.txt',
+        'out_ass102_g26_4c_faible_12000000.txt'
+    ]  # Liste des chemins de fichiers
 
-    # Lire toutes les données
-    data = read_data(file_path)
-
-    # Filtrer les données pour récupérer uniquement celles avec 1 cœur (colonne 3, index 2)
-    filtered_data_1_core = data[data[:, 2] == 1]  # Supposons que la troisième colonne contient le nombre de cœurs
-
-    ntot_values = np.unique(filtered_data_1_core[:, 1])
+    file_paths = [
+        'out_pimw_g26_4c_faible_15000000.txt',
+        'out_pimw_g26_4c_faible_25000000.txt',
+        'out_pimw_g26_4c_faible_12000000.txt'
+    ]  # Liste des chemins de fichiers
 
     # Initialiser des listes pour stocker les résultats
     speedup_data = []
     nombre_process_data = []
+    ntot_values = []
 
-    # Calculer le speedup pour chaque ensemble de données
-    for ntot in ntot_values:
-        # Filtrer les données pour le nombre total de fléchettes correspondant
-        filtered_data = data[data[:, 1] == ntot]
-        # print(filtered_data)
+    # Lire et traiter chaque fichier
+    for file_path in file_paths:
+        # Lire toutes les données
+        data = read_data(file_path)
+
+        # Filtrer les données pour récupérer uniquement celles avec 1 cœur (colonne 3, index 2)
+        filtered_data_1_core = data[data[:, 2] == 1]  # Supposons que la troisième colonne contient le nombre de cœurs
+
+        ntot_value = np.unique(filtered_data_1_core[:, 1])[0]  # Supposons que la deuxième colonne contient ntot
 
         # Calculer le speedup pour les données filtrées
-        speedup, nombre_process = calculate_speedup(filtered_data) # filtered data or data
-        # print(speedup, nombre_process)
+        speedup, nombre_process = calculate_speedup(data)
 
         # Ajouter les résultats à la liste
         speedup_data.append(speedup)
         nombre_process_data.append(nombre_process)
+        ntot_values.append(ntot_value)
 
     # Tracer les courbes pour chaque nombre total de fléchettes
     plot_speedup(speedup_data, nombre_process_data, ntot_values)

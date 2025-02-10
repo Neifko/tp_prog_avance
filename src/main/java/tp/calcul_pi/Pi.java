@@ -20,7 +20,7 @@ public class Pi {
     public static void main(String[] args) throws Exception {
         long total = 0;
         int[] n_total = {12000, 12000000, 120000000}; // 12000, 12000000, 120000000
-        int n_total_faible = 25000000; // 15000000, 25000000
+        int n_total_faible = 12000000; // 15000000, 25000000
         int[] n_proc = {1, 2, 3, 4, 5, 6, 8, 10, 12}; // 1, 2, 3, 4, 5, 6, 8, 10, 12
         String filename = "./out_pimw_g26_4c_faible.txt"; // "./out_pimw_g26_4c.txt" forte | "./out_pimw_g26_4c_faible.txt" faible
 
@@ -44,10 +44,7 @@ public class Pi {
 
                 }
             }
-
         }
-
-
     }
 }
 
