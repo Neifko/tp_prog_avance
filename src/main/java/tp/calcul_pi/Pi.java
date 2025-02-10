@@ -19,12 +19,12 @@ import java.util.concurrent.Future;
 public class Pi {
     public static void main(String[] args) throws Exception {
         long total = 0;
-        int[] n_total = {12000, 12000000, 120000000}; // 12000, 12000000, 120000000
-        int n_total_faible = 12000000; // 15000000, 25000000
-        int[] n_proc = {1, 2, 3, 4, 5, 6, 8, 10, 12}; // 1, 2, 3, 4, 5, 6, 8, 10, 12
-        String filename = "./out_pimw_g26_4c_faible.txt"; // "./out_pimw_g26_4c.txt" forte | "./out_pimw_g26_4c_faible.txt" faible
+        int[] n_total = {1200000000}; // 12000, 12000000, 120000000
+        int n_total_faible = 120000000; // 15000000, 25000000
+        int[] n_proc = {8}; // 1, 2, 3, 4, 5, 6, 8, 10, 12
+        String filename = "./out_pimw_g26_4c.txt"; // "./out_pimw_g26_4c.txt" forte | "./out_pimw_g26_4c_faible.txt" faible
 
-        boolean scalabilite_forte = false;
+        boolean scalabilite_forte = true;
 
         if (scalabilite_forte) {
             // Scalabilité forte

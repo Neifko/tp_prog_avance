@@ -293,5 +293,5 @@ Faire des paragraphes pour expliquer les resultats obtenus
 
 est ce que ce qu'on a calculer donne le bon resultat
 
-
+essayer de faire un boxplot (boite a moustache) pour l'affichage des erreurs
 

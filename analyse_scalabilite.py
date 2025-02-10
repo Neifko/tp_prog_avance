@@ -65,8 +65,8 @@ def plot_speedup(speedup_data, nombre_process_data, ntot_values):
 
 # Main
 if __name__ == "__main__":
-    file_path = 'out_ass102_g26_4c.txt'  # Chemin du fichier
-    # file_path = 'out_pimw_g26_4c.txt'  # Chemin du fichier
+    # file_path = 'out_ass102_g26_4c.txt'  # Chemin du fichier
+    file_path = 'out_pimw_g26_4c.txt'  # Chemin du fichier
     # file_path = 'out_mws_g26_4c.txt'  # Chemin du fichier
 
     # Lire toutes les données
