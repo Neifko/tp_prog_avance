@@ -2,7 +2,7 @@
 
 extern "C"
 __global__ void monteCarloPi(double *count, int totalIterations) {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int idx = blockIdx.x * blockDim.x + threadIdx.x; // linearisation de tableau
 
     if (idx >= totalIterations) return;
 
