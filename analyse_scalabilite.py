@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from six import print_
 
 
 # Fonction pour lire les données à partir d'un fichier
@@ -56,18 +55,19 @@ def plot_speedup(speedup_data, nombre_process_data, ntot_values):
     plt.gca().set_aspect('equal', adjustable='box')
 
     # Afficher toutes les unités des axes
-    # x_ticks = np.arange(0, max_process + 1, 1)  # Ajustez l'intervalle selon vos besoins
-    # y_ticks = np.arange(0, max(max(speedup) for speedup in speedup_data) + 1, 1)  # Ajustez l'intervalle selon vos besoins
-    # plt.xticks(x_ticks)
-    # plt.yticks(y_ticks)
+    x_ticks = np.arange(0, max_process + 1, 1)  # Ajustez l'intervalle selon vos besoins
+    y_ticks = np.arange(0, max(max(speedup) for speedup in speedup_data) + 1, 1)  # Ajustez l'intervalle selon vos besoins
+    plt.xticks(x_ticks)
+    plt.yticks(y_ticks)
 
     plt.show()
 
 # Main
 if __name__ == "__main__":
     # file_path = 'out_ass102_g26_4c.txt'  # Chemin du fichier
-    file_path = 'out_pimw_g26_4c.txt'  # Chemin du fichier
+    # file_path = 'out_pimw_g26_4c.txt'  # Chemin du fichier
     # file_path = 'out_mws_g26_4c.txt'  # Chemin du fichier
+    file_path = 'out_pimw_mm_4c.txt'  # Chemin du fichier
 
     # Lire toutes les données
     data = read_data(file_path)
