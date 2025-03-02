@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from six import print_
 
 # Fonction pour lire les données à partir d'un fichier
 def read_data(file_path):
@@ -54,17 +53,17 @@ def plot_speedup(speedup_data, nombre_process_data, ntot_values):
 
 # Main
 if __name__ == "__main__":
-    file_paths = [
-        'out_ass102_g26_4c_faible_120000.txt',
-        'out_ass102_g26_4c_faible_1200000.txt',
-        'out_ass102_g26_4c_faible_12000000.txt'
-    ]  # Liste des chemins de fichiers
-
     # file_paths = [
-    #     'out_pimw_g26_4c_faible_15000000.txt',
-    #     'out_pimw_g26_4c_faible_25000000.txt',
-    #     'out_pimw_g26_4c_faible_12000000.txt'
+    #     'out_ass102_g26_4c_faible_120000.txt',
+    #     'out_ass102_g26_4c_faible_1200000.txt',
+    #     'out_ass102_g26_4c_faible_12000000.txt'
     # ]  # Liste des chemins de fichiers
+
+    file_paths = [
+        'out_pimw_g26_4c_faible_15000000.txt',
+        'out_pimw_g26_4c_faible_25000000.txt',
+        'out_pimw_g26_4c_faible_12000000.txt'
+    ]  # Liste des chemins de fichiers
 
     # Initialiser des listes pour stocker les résultats
     speedup_data = []
