@@ -60,11 +60,11 @@ if __name__ == "__main__":
         'out_ass102_g26_4c_faible_12000000.txt'
     ]  # Liste des chemins de fichiers
 
-    file_paths = [
-        'out_pimw_g26_4c_faible_15000000.txt',
-        'out_pimw_g26_4c_faible_25000000.txt',
-        'out_pimw_g26_4c_faible_12000000.txt'
-    ]  # Liste des chemins de fichiers
+    # file_paths = [
+    #     'out_pimw_g26_4c_faible_15000000.txt',
+    #     'out_pimw_g26_4c_faible_25000000.txt',
+    #     'out_pimw_g26_4c_faible_12000000.txt'
+    # ]  # Liste des chemins de fichiers
 
     # Initialiser des listes pour stocker les résultats
     speedup_data = []

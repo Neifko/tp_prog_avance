@@ -5,120 +5,110 @@
 > 13/12/2024
 
 
+## Introduction
+
+Ce travail pratique a pour objectif d'explorer les concepts et techniques de la 
+programmation parallèle sur une architecture à mémoire partagée et une architecture
+à mémoire distribuée.  
+Nous avons abordé plusieurs aspects théoriques et pratiques permettant de mieux 
+comprendre comment optimiser l'exécution d'un programme en exploitant le parallélisme.
+
+Dans un premier temps, nous avons vu les différents modèles et paradigmes de 
+programmation parallèle. Ensuite, nous avons mis en pratique ces notions à travers divers exercices et implémentations en Java.  
+Enfin, nous avons analysé la performance des algorithmes à l'aide de métriques 
+telles que le **speedup** et la **scalabilité**.
+
+Ce rapport présente donc les différents concepts abordés, les implémentations réalisées ainsi que l'analyse des performances obtenues.
+
 
 ## Modèles et paradigmes de programmation parallèle
 
-Nous avons fait le début du cours, voici les premières notes.
+### Notions fondamentales
 
-Il y a des méthodes à suivre pour passer d'un code séquentiel à un code en parallèle
+La programmation parallèle repose sur l'exécution simultanée de plusieurs tâches afin d'améliorer les performances d'un programme. Un programme initialement séquentiel peut être converti en programme parallèle en suivant certaines méthodes et en respectant des contraintes spécifiques.
 
-Un paradigme est une structure algorithmique
-donc il ne faut pas mélanger modèle et paradigme
-
-2 aspects en séquentielle
-en parallèle, il y a 3 aspects
-SIMD ou MIMD
-Ils sont expliqués plus bas.
+Mais attention, on sait qu'un paradigme est une structure algorithmique et qu'il ne faut ne faut donc pas mélanger modèle et paradigme.
 
 ### Suite du cours : Modèles et paradigmes de programmation parallèle
 
-Le projet n'est pas portable sur un système en mémoire distribuée. Il faudrait faire des modifications importantes. Cela
-créer plusieurs façons d'écrire le code si on veut l'adapter pour plein de besoins (architectures différentes, qualité
-algorithmique).
+Le projet n'est pas adapté à un système en mémoire distribuée. Des modifications importantes seraient nécessaires, ce qui entraînerait plusieurs façons d'écrire le code pour répondre à divers besoins, comme différentes architectures ou qualités algorithmiques.
 
 Comment rendre parallèle un algorithme séquentiel ?
 
 - Analyser l'algorithme en cherchant des endroits pour paralléliser l'algo et trouver des tâches qui peuvent s'exécuter
   de manière indépendante et comment sont exprimées leurs interactions.
-- On distingue deux grandes classes de modèle de programmetion :
+- On distingue deux grandes classes de modèle de programmation :
     - Parallélisme de tâche
     - Parallélisme de donnée
 
-Parallélisme de tâche :
-- Décomposition d’une tâche en plusieurs sous-tâches
-- Variables partagées entre les (sous-)tâches OU communication par message entre tâche, on doit identifier la
-  méthode à utiliser
-- On associe une tâche à un processus (support d’exécution de la tâche)
 
-Les cas d'utilisation sont des tâches, car ce sont des scénarios qui en appellent d'autres,
-donc des tâches qui se divisent en sous tâches.
-
-Remarque liée à l'architecture :
+### Explication de monte carlo pour calculer PI
 
 
-SISD : Single Instruction Single Data
+
+### Paradigmes de Programmation
+
+- **Parallélisme de tâche** : Ce paradigme consiste à décomposer une tâche en plusieurs sous-tâches qui peuvent être exécutées en parallèle. Les sous-tâches peuvent partager des variables ou communiquer par message. Ce paradigme est adapté aux applications où les tâches peuvent être clairement définies et séparées.
+
+- **Parallélisme de donnée** : Ce paradigme consiste à décomposer les données en plusieurs parties qui peuvent être traitées en parallèle. Chaque partie des données est traitée indépendamment, ce qui permet d'accélérer les calculs. Ce paradigme est adapté aux applications de traitement de données volumineuses.
+
+Par exemple, les cas d'utilisation sont des tâches, car ce sont des scénarios qui en appellent d'autres, donc des tâches qui se divisent en sous tâches.
+
+### Modèles de Programmation
+
+1. **SISD (Single Instruction Single Data)** : Une seule instruction est exécutée sur un seul jeu de données. Ce modèle est le plus simple et est utilisé dans les systèmes où une seule tâche est exécutée à la fois. Il est principalement utilisé pour des tâches simples ne nécessitant pas de parallélisme. Il correspond surtout au ancien processeur mono coeur.
+
+2. **SIMD (Single Instruction Multiple Data)** : Une seule instruction est exécutée sur plusieurs jeux de données. Ce modèle est typiquement utilisé dans les cartes graphiques où la même opération est appliquée à une grille de données sur plusieurs processeurs. Il est efficace pour les tâches répétitives et homogènes.
+
+3. **MIMD (Multiple Instruction Multiple Data)** : Plusieurs instructions sont exécutées sur plusieurs jeux de données. Ce modèle est le plus flexible et est utilisé dans les systèmes où différentes tâches peuvent être exécutées simultanément. Il est adapté aux applications complexes nécessitant une grande variété de traitements. Il correspond à nos processeurs multicoeurs.
+
+### Analyse de programme
+
+Un code comporte deux phases principales : le calcul et l'échange de données. Les tâches peuvent se chevaucher entre le traitement des données et le calcul. Si les sous-tâches d'une boucle sont indépendantes, elles peuvent être exécutées en parallèle, ce qu'on appelle l'itération parallèle.
+
+La méthode "diviser pour régner" est une structure algorithmique récursive qui utilise de nombreuses petites tâches pour accomplir une grande tâche.
+
+Un pipeline est constitué de plusieurs processus exécutés en parallèle, mais chaque processus doit attendre la fin du précédent. Par exemple, laver le linge, le sécher, le repasser et le plier, chacun dans l'ordre.
 
 
-SIMD :
-Single Instruction Multiple Data (carte graphique -> une grille de donnée qu'on exécute sur plusieurs processeurs)
+## Implémentations Pratiques
 
+### TP 4 : Réorganisation des Fichiers et Classes
 
-MIMD : Multiple Instruction Multiple Data
+Exo 1 et 2 sur le cahier
 
-
-Dans un code il y a deux phases principales, une phase de calcul et une phase d'échange de données, les tâches
-peuvent avoir un recouvrement de temps entre le traitement des données et le traitement du calcul.
-Si les sous tâches d'une boucle sont indépendantes alors, je peux faire du parallèle, appelé de l'itération parallèle.
-Divisé pour régner est une structure algorithmique recursive en utilisant plein de petites tâches pour faire une grande
-tâche.
-Pipeline : 4 processus qui s'exécute en parallèle (je lave le linge, je seche, je repasse, je plie) 1 par 1 en
-respectant la dépendance.
-
-code de steve kaultz 
-
-### tp 4 
-exercice 1 et 2 fait sur le cahier
-
-reorganiser les fichiers et classes en plusieurs fichiers
+Nous avons utilisé le code de Steve Kaultz pour Assignement 102 et Pi. Ensuite nous avons réorganisé les fichiers et classes en plusieurs fichiers pour améliorer la structure du code. Cette réorganisation a permis de clarifier les responsabilités de chaque classe et de faciliter la maintenance du code. La modularité du code a été améliorée, ce qui est essentiel pour le développement de programmes parallèles.
 
 ### Assignement 102
 
-API concurrent
-n_cible <=> nAtomSuccess
+Le code d'Assignement 102 utilise l'API concurrent l'appelation nAtomSuccess correspond au n_cible habituel.
 
-Une tache monte carlo est une iteration
+Une tache monte carlo est une iteration de notre boucle, le code utilise le paradigme des iterations parallèles.
 
-Algo des iterations parallèle
+Il fonctionne en créant des taches de monte carlo et en les attribuants à un thread.
 
-Creer tache monte carlo et lui associé un thread
+Cependant le programme passe trop de temps dans la section critique, on peut tout de même accelerer un peu en disant les fleches qui tombent hors de la cible au lieu de dedans. On passe de 75% des flèches tombées environ à 25% donc 50% de flèche en moins à traiter.
 
-trop de temps dans section critique, on peut accelerer en disant les fleches qui tombent hors de la cible
-75% on passe a 25%
+Malheureusement l'acceleration reste minimal et n'augmente pas suffisamment les performances.
 
-cependant cela n'accelere pas beaucoup
+Assignement 102 utilise le vole de tache car il peut être adapter dans ce contexte cependant il passe beaucoup de temps dans les communications d'où la lenteur de ce programme.
 
-On a choisit algo avec vole de tache car adapter ici cependant on passe beaucoup de temps dans les communications
-
-Le système à un nombre de tache correspondant au nombre de fleche, puis le systeme separent en p processus
-en assignant les taches au proc, cela prends beaucoup de temps quand on met une grande quantité de fleche
-
-
+Le programme à un nombre de tâche correspondant au nombre de flêche, puis le système les séparent en un nombre P de processus. En assignant les taches au processus, cela prends beaucoup de temps quand on met une grande quantité de fleche.
 
 
 ### Pour PI 
-on utilise arraylist list et random de util (pas de math)
+Le programme Pi utilise ArrayList, List et random de la classe Util (pas de math).
 
-class pi avec method main => instancie master et execute doRun
-main depend de classe master
+La class Pi avec la method main permet d'instancier Master et execute doRun. Cette méthode dépend de la classe Master.
+La méthode doRun permet d'executer avec un certain nombre de flèche ici total count à divise en plusieurs processus qui est numworkers. Pour determiner le temps d'execution on a starttime et stoptime.
 
-master a method dorun => total count ? numworkers ?
-start time ?
+On crée tasks qui est la liste des taches qui seront effectuées, en respectant le paradigme choisi chaque tache est un worker. Les worker sont des Callable qui sont des Runnable qui renvoie un resultat qui est ajouté dans une liste qui est une Future.
 
-on cree tasks liste de tache
 
-chaque tache est un worker
+## Analyse des codes
 
-les worker sont des callable
 
-callable est un runnable qui renvoie un resultat
-
-liste de resultat future
-
-Executor a algorithme pour vol de tache, ordonnancement, etc
-
-## Seance 13/12
-
-Analyser chaque code (pi monte carlo) + diagramme de classe
+On peut retrouver les diagrammes de classes des codes réalisés dans le dossier conception.
 
 Quel algorithme est implementer, quelle paradigme
 
@@ -295,3 +285,8 @@ est ce que ce qu'on a calculer donne le bon resultat
 
 essayer de faire un boxplot (boite a moustache) pour l'affichage des erreurs
 
+
+## Conclusion
+
+Ce TP a permis d'explorer la programmation parallèle et ses implications sur la performance des algorithmes.  
+Nous avons vu que la parallélisation n'apporte pas toujours une amélioration linéaire et que des facteurs comme la synchronisation ou la communication entre threads influencent fortement les résultats.
