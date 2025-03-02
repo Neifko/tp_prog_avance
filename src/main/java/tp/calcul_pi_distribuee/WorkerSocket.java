@@ -20,7 +20,9 @@ public class WorkerSocket {
      */
     public static void main(String[] args) throws Exception {
 
-        if (!("".equals(args[0]))) port = Integer.parseInt(args[0]);
+        if (!("".equals(args[0]))) {
+            port = Integer.parseInt(args[0]);
+        }
         System.out.println(port);
         ServerSocket s = new ServerSocket(port);
         System.out.println("Server started on port " + port);

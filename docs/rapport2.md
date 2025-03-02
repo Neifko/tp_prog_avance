@@ -236,6 +236,8 @@ raison que pour masterworker du pi.java
 
 sur centos car windows bloque les comm entre machine
 
+installer java-devel
+
 on desactive firewall de centos `sudo systemctl stop firewalld`
 
 on execute les workers puis on execute le master avec les ips des machines workers
