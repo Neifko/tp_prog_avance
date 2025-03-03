@@ -16,7 +16,7 @@ comprendre comment optimiser l'exécution d'un programme en exploitant le parall
 Dans un premier temps, nous avons vu les différents modèles et paradigmes de 
 programmation parallèle. Ensuite, nous avons mis en pratique ces notions à travers divers exercices et implémentations en Java.  
 Enfin, nous avons analysé la performance des algorithmes à l'aide de métriques 
-telles que le **speedup** et la **scalabilité**.
+telles que l'analyse de la **scalabilité**.
 
 Ce rapport présente donc les différents concepts abordés, les implémentations réalisées ainsi que l'analyse des performances obtenues.
 
@@ -44,6 +44,24 @@ Comment rendre parallèle un algorithme séquentiel ?
 
 ### Explication de monte carlo pour calculer PI
 
+Monte carlo est une méthode de tirage aléatoire. Elle est extremement utilisé aujourd'hui et comporte beaucoup de ressource et de documentation surtout dans le domaine scientifique. Par exemple : dans des calculs avec des geophysicien pour savoir comment l'eau s'écoule dans les milieux sous terrain. On utilise la probabilité que Xp tombe dans le quart de disque.
+
+En mot :  
+((air du quart de disque)/4)/air^2
+
+Calcul :  
+P = (A_1/4 * d)/A_2 = ((pi * r^2)/4)/r^2 = pi/4 = P ou encore P ~= n_cible / n_total
+
+Avec n_cible le nombre de flèches dans la cible et n_total le nombre de flèches tiré.
+
+Ensuite :  
+P = pi/4 ~= n_cible / n_total
+
+Soit pi ~= 4 * n_cible / n_total
+
+d = sqrt(xp^2 + yp^2)
+
+si d <= 1 alors on incrémente n_cible
 
 
 ### Paradigmes de Programmation
@@ -75,9 +93,7 @@ Un pipeline est constitué de plusieurs processus exécutés en parallèle, mais
 
 ### TP 4 : Réorganisation des Fichiers et Classes
 
-Exo 1 et 2 sur le cahier
-
-Nous avons utilisé le code de Steve Kaultz pour Assignement 102 et Pi. Ensuite nous avons réorganisé les fichiers et classes en plusieurs fichiers pour améliorer la structure du code. Cette réorganisation a permis de clarifier les responsabilités de chaque classe et de faciliter la maintenance du code. La modularité du code a été améliorée, ce qui est essentiel pour le développement de programmes parallèles.
+Nous avons utilisé le code de Karthik Jain et Steve Kaultz pour Assignement 102 et Pi. Ensuite nous avons réorganisé les fichiers et classes en plusieurs fichiers pour améliorer la structure du code. Cette réorganisation a permis de clarifier les responsabilités de chaque classe et de faciliter la maintenance du code. La modularité du code a été améliorée, ce qui est essentiel pour le développement de programmes parallèles.
 
 ### Assignement 102
 
@@ -110,57 +126,65 @@ On crée tasks qui est la liste des taches qui seront effectuées, en respectant
 
 On peut retrouver les diagrammes de classes des codes réalisés dans le dossier conception.
 
-Quel algorithme est implementer, quelle paradigme
+Les Future sont des objets de l'API Concurrent qui stockent les résultats tout en protégeant les données lors d'un accès parallèle. Ils sont appelés Future pour leur nature asynchrone, mais nécessitent une synchronisation pour résoudre les dépendances entre les tâches. Cela se fait lorsque le résultat d'une tâche est connu, permettant de récupérer les données avant de poursuivre le programme.
 
-On avait vu les Future -> objet qui stock les resultats pour les donner, dans concurrent c'est on a besoin d'un 
-runnable qui renvoie un resultat => callable donc thread qui renvoie un resultat
-on l'appelle future pour l'asynchronisme mais doit etre synchroniser avec resuolution des dependances entre les 
-taches qui peut etre fait quan don connaiot le resultat d'une tache; données doit etre recuperere avant de connaitre 
-la suite du programme; on appelle future qu'on va chauiner dans une liste et quand ils arrvent on les recupere pour 
-debloquer la dependance. monte carlo master worker , les worker renvoie le resultat car ce sont des future qui
-renvoie le resultat a un instant t ; resultat arrive mis dans une liste (reduction ici) 
+Les Future sont enchaînés dans une liste et récupérés dès qu'ils arrivent, débloquant ainsi les dépendances.
 
-openmp lib pour faire prog en memoire partage
+Dans un modèle master-worker Monte Carlo, les travailleurs (workers) renvoient les résultats sous forme de Future à un instant donné. Ces résultats sont ensuite ajoutés à une liste pour être traités (réduction).
 
-Comment est implementer le master worker ici ?
 
-Operation Atomic (atomic integer) : operation d'incrementation est section critique, on utilise moniteur qui est
-atomic et donc objet qui protege un entier avec des points d'entrer comme incrementAndGet
+Comment le modèle maître-esclave est-il implémenté ici ?
 
-### speedup
+L'opération atomique (atomic integer) utilise un moniteur pour protéger un entier lors de l'incrémentation, qui est une section critique. Le moniteur est atomique et offre des points d'entrée comme incrementAndGet pour garantir la sécurité des opérations concurrentes.
 
-tc temps calcul theorique different a chaque fois
 
-Temps d'execution : 
-T1 = ntot * ti                # temps d'execution mesurer avec 1 processus
-T2 = ntot/2 * ti + (tc2)
-Tp = ntot/p * ti + (tcp)      # temps mesurer avec plusieurs processus
-Sp = T1/Tp  = (ntot*ti) / (ntot/p * ti) + (tc)
+Pour réaliser des programmes en mémoire partagée on peut aussi utiliser OpenMP.
 
-Sp = speedup
+## Analyse de la scalabilité
 
-Tp = le temps moyen pour le nombre de processus p
+### Le speedup
 
-on croit aller p fois plus vite
+L’accélération d’un programme parallèle (ou speedup) représente le gain en rapidité d’exécution obtenu par son exécution sur plusieurs processeurs.
 
-c'est scalabilité forte (voir cahier) zone negative veut dire je ralenti
+On l'obtient de la manière suivante : 
 
-Tp > T1
-Sp < 1
-ntot/2 + 3/4 * ntot
+Temps d'execution :  
+T1 = ntot * ti  
+Tp = ntot/p * ti  
+Sp = T1/Tp  
 
-(si on met dans le petit zone 1/4 donc remplace 3/4 par 1/4 alors Tp<T1 Sp > 1)
+Avec T1 le temps d'exécution mesurer avec 1 processus, Tp le temps mesuré avec p processus, Sp le speedup calculé, ntot le nombre de flèche dans la cible, p le nombre de processus et ti qui peut être interprété par le temps pour 1 flèche/tache executé.
 
-Le super lineaire existe seulement quand la charge processeur est beaucoup trop haute en sequentiel;
-proc doit recup info du tableau dans la ram, si tableau petit alors il le met dans le cache et travaille que dans le 
-cache mais si tableau tres grand alors doit le saucissonner et mettre bout de tableau un par un dans le cache et
-dans la ram pour pouvouir le traiter en entier, processus font des aller retour cache ram cache ram qui prennent 
-du temps, avantage des worker qui peuvent chacun avoir un morceau qui rentre dans le cache
+Les temps sont souvent la moyenne ou la median des valeurs obtenues de temps sur plusieurs expériences avec le même ntot et le même p.
 
-### Consignes : 
+Cela nous permet de penser que l'on va aller p fois plus vite à chaque fois. Cela correspond à la scalabilité forte.
 
-pouvoir faire varier le nombre de proc
-a la main ou boucle pour traiter different ntot et proc
+Cependant, si Tp > T1 alors Sp < 1 indiquant une perte de performance. Si on réduit la zone cible à un quart, remplaçant 3/4 par 1/4 (donc exterieur de la cible), Tp < T1 et Sp > 1, ce qui montre une amélioration des performances.
+
+![Courbe de scalabilité idéal](scalabilite_ideal.PNG "Scalabilité idéal")
+
+*Figure: Speedup (extrait du cours F. Butelle et C. Coti, U. P13, https://lipn.univ-paris13.fr/~coti/cours/coursmpi1.pdf*
+
+Le speedup super-linéaire se produit uniquement lorsque la charge processeur est excessivement élevée en mode séquentiel.
+Le speedup linéaire se produit lorsque le parallèlisme est optimal.
+Et un speedup sub-linéaire se produit dans le cas courant suite au ralentissement dû au parallèlisme. Aussi appelé le typical success.
+
+Exemple simple : 
+Un processeur doit récupérer des informations d'un tableau en RAM. Si le tableau est petit, il est chargé dans le cache, permettant un traitement rapide. Cependant, si le tableau est très grand, il doit être divisé en morceaux, chacun étant chargé tour à tour dans le cache et la RAM pour être traité. Ce processus implique des allers-retours entre le cache et la RAM, ce qui prend du temps.
+
+L'avantage des travailleurs (workers) est qu'ils peuvent chacun traiter un morceau du tableau qui tient entièrement dans leur cache, réduisant ainsi les allers-retours et améliorant l'efficacité.
+
+Nous allons voir 2 types de scalabilité :
+
+Scalabilité forte :  
+On fixe la taille du problème et on augmente le nombre de processus
+
+Scalabilité faible :  
+On fixe la taille du problème par processus et on augmente le nombre de
+processus. C’est à dire, la taille du problème augmente avec le nombre de
+processus.
+
+### Consignes :
 
 1) executer les codes -  assignement 102 et pi et passer les parametres d'entrée (A102 : ntot et nb processor;
 Pi : ntot/p et p = nbworker) 
@@ -170,125 +194,157 @@ erreur piapproc - piexact / piexact ; ntot ; nb process; temps exec ;
 3) speedup grossier, est ce que le code se comporte comme attendu ; voir l'evolution du temps au fur et a mesure
 
 
+Le nombre de processus et le nombre de flèches et gérée automatiquement à l'aide de boucle.
+
 Voir les txt out.txt
 
 
 ### Resume : 
 #### Sur architecture a memoire partage
-prog parallele et distribuee
-concurrence
-architecture memoire partagé
-java thread
-monte carlo avec api concurrent -> modele et paradigme de programmation parallele
-on peut pas avoir plus de coeur physique ou de coeur logique
-
-il faut augmenter les ressources physique en utilisant d'autres machines
+Programmation Parallèle et Distribuée :
+Concurrence et gestion des threads.
+Architecture de mémoire partagée.
+Utilisation de Java Threads.
+Méthode de Monte Carlo avec l'API Concurrent : modèle et paradigme de programmation parallèle.
+Limitation : Impossible d'avoir plus de cœurs physiques ou logiques que ceux disponibles sur une machine.
+Solution : Augmenter les ressources physiques en utilisant d'autres machines.
 
 #### Sur architecture a memoire distribue
-utilisation des sockets java sur plusieurs machines
+Utilisation des Sockets Java :
+Communication entre plusieurs machines pour répartir la charge de travail et les données.
 
 
+Les sockets sont des interfaces de communication bidirectionnelle permettant l'échange de données entre processus sur un même ordinateur ou sur un réseau. Ils utilisent le modèle client-serveur, où le serveur écoute les connexions entrantes et le client initie la communication. Les sockets peuvent être configurés pour des protocoles comme TCP (connexion fiable) ou UDP (connexion sans établissement). En Java, la classe Socket est utilisée pour créer des sockets clients, tandis que ServerSocket gère les connexions serveur. Les sockets sont essentiels pour les applications réseau, telles que les navigateurs web et les services de messagerie.
 
-### Suite :
+Pour lancer plusieurs travailleurs (workers), cochez la case "Allow multiple instances". Vous pouvez spécifier un argument pour leur exécution en indiquant le port d'écoute de chaque travailleur.
 
-
-faire un cours sur les sockets dans le rapport et petit document de conception sur l'explication du worker et master
-
-On peut lancer plusieurs worker en cochant la case allow multiple instances, on peut lui mettre un arguement pour
-l'execution, on met le port d'écoute du worker
-Il reste à implementer le montecarlo
-
-Le master on l'execute et on lui donne le nombre de machine et le port des machines
+Pour le maître (master), exécutez-le en fournissant le nombre de machines et les ports des machines.
 
 ## Evaluation de la performance
 
-scalabilité etc resume de qualité de developpement
+![Scalabilité forte Assignement102](scalabilite_forte_ass102.PNG "Scalabilité forte Assignement102")
+
+Courbe Bleue (ntot = 120,000,000) et Courbe Orange (ntot = 1,200,000,000) :
+Le speedup commence à environ 1 avec un seul processus, ce qui est attendu.
+Le speedup baisse doucement initialement avec l'ajout de processus, mais commence à diminuer drastiquement après environ 4 processus.
+Cela indique que l'ajout de processus supplémentaires ne contribue pas à une amélioration significative des performances, probablement en raison de la surcharge de gestion des processus ou des limitations de la parallélisation mais surtout car cette algorithme n'est pas fait pour être parallèlisé de cette manière ou que la parallèlisation est mal réalisé.
+
+Les deux courbes sont bien en dessous de la ligne de scalabilité idéale, ce qui montre que le système ne tire pas pleinement parti de l'ajout de processus supplémentaires.
 
 
-lire le fichier texte et calculer le sp et les moyenne de tp etc et faire un plot
+![Scalabilité faible Assignement102](scalabilite_faible_ass102.PNG "Scalabilité faible Assignement102")
+
+Toutes les courbes montrent un speedup initial qui diminue rapidement à mesure que le nombre de processus augmente.
+Le speedup commence autour de 1 pour un processus et chute en dessous de 1 au-delà de 2 processus.
+
+La scalabilité faible est testée ici en augmentant à la fois le nombre de processus et la taille du problème.
+Le fait que le speedup soit inférieur à 1 pour plus de 2 processus indique que l'ajout de processus supplémentaires ne compense pas l'augmentation de la charge de travail. Cela peut être dû à des surcharges de communication ou de gestion des processus.
+
+La ligne rouge pointillée montre un speedup de 1, ce qui est le minimum attendu pour une performance stable. Les courbes étant en dessous de cette ligne montrent que l'efficacité diminue avec l'ajout de processus.
+
+![Scalabilité forte PI Master Worker](scalabilite_forte_pimw.PNG "Scalabilité forte PI Master Worker")
+
+Courbe Bleue (ntot = 12,000) :  
+Le speedup reste proche de 1 pour tous les nombres de processus, indiquant qu'il n'y a pratiquement pas de gain de performance avec l'ajout de processus supplémentaires. Cela suggère que le problème est trop petit pour bénéficier de la parallélisation. Il était inutile de la faire.
+
+Courbe Orange (ntot = 120,000,000) et Courbe Verte (ntot = 1,200,000,000) :
+Le speedup augmente initialement avec l'ajout de processus, atteignant un pic autour de 6 processus, puis diminue légèrement. Cela montre que l'ajout de processus est bénéfique jusqu'à un certain point, après quoi les gains de performance diminuent. La courbe suit d'ailleurs le typical success de la scalabilité. Le fait d'avoir parallèlisé accélère bien l'execution du programme.
+
+Ne pas tenir compte de la courbe rouge.
+
+Cette analyse montre que la taille du problème (ntot) influence fortement le speedup obtenu avec l'ajout de processus. Pour les problèmes plus grands, l'ajout de processus améliore significativement les performances jusqu'à un certain point, après quoi les gains diminuent. Pour les problèmes plus petits, l'ajout de processus ne conduit pas à des gains de performance significatifs. Cela souligne l'importance de choisir le bon niveau de parallélisation en fonction de la taille du problème. On peut interpréter que les 4 vrais coeurs du processeur correspondent à 4 vrais coeurs mais que 8 coeurs multi threadé correspondent plus à 6 vrais coeurs.
+
+![Scalabilité faible PI Master Worker](scalabilite_faible_pimw.PNG "Scalabilité faible PI Master Worker")
+
+Les trois courbes (bleue, orange, verte) montrent un speedup proche de 1 pour tous les nombres de processus jusqu'à la limite du processeur de 8 coeurs. Cela signifie que le temps d'exécution reste constant lorsque le nombre de processus et la taille du problème augmentent proportionnellement.
+Cela est typique de la scalabilité faible, où l'objectif est de maintenir le temps d'exécution constant en augmentant les ressources proportionnellement à la charge de travail.
+
 
 
 ## Reutilisation de composant logiciel
 
-On argumente pour choisir de reutiliser pi.java (en utilisant les experiences)
+Nous argumentons en faveur de la réutilisation de pi.java en nous basant sur les expériences précédentes.
 
-integrer le monte carlo de pi avec de la conception pour appeler le code et le mettre dans masterworker
+On intègre la méthode de Monte Carlo de pi.java dans une architecture master-worker pour appeler le code efficacement.
 
-on commence avec 4 worker avec 1 thread pi.java par worker pour les 4 coeurs mais plus tard 1 worker avec 4 thread 
-sur pi.java
+On commence avec quatre workers, chacun exécutant un thread pi.java (classe Master) sur l'un des quatre cœurs disponibles. Par la suite, on configure un seul worker avec quatre threads pi.java pour optimiser l'utilisation des ressources.
 
+### Consignes de tp : 
 1) Validation MC avec javasocket
 2) Conception integrer pi.java dans worker socket
 3) Validation 
 4) Scalabilité sur 1 poste
 5) Mise en oeuvre sur N postes
 
-Faire le diagramme de classe
+![Scalabilité forte Master Worker Socket](scalabilite_forte_mws.PNG "Scalabilité forte Master Worker Socket")
 
-Faire un dessin explication de la parallelisation a plusieurs niveau
+### Critères de Qualité et Réutilisation de Composants
+La réutilisation de composants, telle que celle de pi.java, est un critère de qualité important dans le développement logiciel. Elle permet de tirer parti des expériences précédentes et d'assurer une cohérence dans le code.
 
-Critere qualité reutilisation de composant, reutilisation de pi.java
+### Analyse des Performances
+L'écart observé entre la courbe de scalabilité idéale et les courbes obtenues avec l'architecture maître-esclave (MWS) est principalement dû à la latence du réseau. Cette latence introduit des délais qui ne sont pas présents dans un environnement local, ce qui affecte les performances globales du système.
 
-l'ecart entre la courbe de scalabilité et les courbes obtenu avec mws est du au latence du reseau donc pas les meme
-raison que pour masterworker du pi.java
+En revanche, pour l'architecture maître-esclave utilisant pi.java, les raisons de l'écart ne sont pas liées à la latence réseau, mais plutôt à d'autres facteurs internes, tels que la gestion des threads et la synchronisation des tâches.
 
 ### Execution distribuée
 
-sur centos car windows bloque les comm entre machine
+On utilise CentOS car Windows bloque les communications entre les machines.
 
-installer java-devel
+Installation de java-devel pour avoir l'environnement de développement Java.
 
-on desactive firewall de centos `sudo systemctl stop firewalld`
+On désactive le pare-feu de CentOS avec la commande : sudo systemctl stop firewalld.
 
-on execute les workers puis on execute le master avec les ips des machines workers
+On lance les workers sur les machines désirées.
 
-
-## 10/02/2025
-
-### A quoi  correspondent les mesures de scalabilité dans la norme IEC 25010 ?
-
-Est ce que la scalabilité d'un code parallele permet d'evaluer un critere de qualité au sens de la norme IEC 25010 ?
-
-metrique : 
-- temps d'exec
-- Speedup
-
-tracer l'erreur de pi pour le nombre de n_cible
+On execute le master en spécifiant les adresses IP des workers.
 
 
-Mesure de effectiveness et efficiency dans iec 25022
 
-Si le temps de ref est celui qu'on souhaite obtenir alors
+## Mesures de Scalabilité dans la Norme IEC 25010
+
+La scalabilité d'un code parallèle est un critère essentiel de qualité, tel que défini dans la norme IEC 25010. Elle permet d'évaluer la capacité d'un système à gérer une augmentation de la charge de travail ou de la taille des données de manière efficace. Pour un code parallèle, cela signifie que le système doit pouvoir s'adapter à l'ajout de plus de processeurs ou de cœurs de calcul tout en maintenant ou en améliorant ses performances.
+
+### Métriques Utilisées
+- **Temps d'Exécution** : Mesure le temps nécessaire pour exécuter une tâche donnée. Il est crucial pour évaluer l'efficacité d'un algorithme parallèle.
+- **Speedup** : Indique dans quelle mesure l'ajout de ressources supplémentaires (comme des processeurs) réduit le temps d'exécution. Un speedup idéal est linéaire, signifiant que doubler les ressources divise par deux le temps d'exécution.
+
+### Analyse de l'Erreur de Pi
+Pour évaluer la précision des calculs, nous avons tracé l'erreur de la valeur de Pi en fonction du nombre de cibles (n_tot). L'erreur est calculée comme la différence entre la valeur estimée de Pi et sa valeur exacte. Les résultats sont présentés sur une échelle logarithmique pour mieux visualiser les variations.
+
+![Analyse des erreurs](analyse_erreurs.PNG "Analyse des erreurs")
+
+### Effectiveness et Efficiency selon la Norme IEC 25022
+La norme IEC 25022 distingue deux concepts clés :
+
+- **Effectiveness** : Mesure dans quelle mesure un système atteint ses objectifs ou répond aux exigences des utilisateurs.
+- **Efficiency** : Évalue l'utilisation des ressources par le système pour atteindre ses objectifs.
+- 
+Calcul de l'Efficacité Parallèle  :
+
+L'efficacité parallèle peut être calculée par la formule :
+
+Efficacité = Tchap - Tp / Tchap
+
 temps cible / temps calculer
 Tchap / Tp = 0,5 / 0.75 = 1/2 * 4/3 = 2/3
 exemple : si T1 = 1sec alors T2 = 0.5sec
 
-efficacité parallele
+On peut donc savoir à combien de pourcent nous sommes parallèles.
 
-a combien de pourcent est ce que on est parallele ?
 
-Tchap - Tp / Tchap
+Résultats Obtenus
+Les métriques mesurées, telles que le temps d'exécution et le speedup, correspondent bien aux courbes de speedup attendues. Cela indique que les améliorations apportées au code parallèle ont un impact positif sur la performance.
 
-On a mesuré time efficiency
-les metrique qu'on a mesurer enfaite finalement correspondent bien a nos courbes de speedup
 
-faire reference au document et au code de metrique : au sens de la norme IEC 25022
-100 % efficacité
-faire pour Pi.java et Ass102
+Analyse Finale
+Les résultats montrent que les métriques choisies sont appropriées pour évaluer la scalabilité et l'efficacité du code parallèle selon les normes IEC 25010 et 25022. Les courbes de speedup et les boxplots des erreurs confirment que les optimisations apportées améliorent effectivement les performances. En termes d'efficacité et d'effectiveness, les deux métriques sont complémentaires : l'efficacité mesure l'utilisation optimale des ressources, tandis que l'effectiveness évalue la capacité du système à atteindre ses objectifs.
 
-efficteveness et efficiency lequel est le meilleur ?
-
-Faire les courbes : 
-- tracer erreur en echelle log10
-
-Faire des paragraphes pour expliquer les resultats obtenus
-
-est ce que ce qu'on a calculer donne le bon resultat
-
-essayer de faire un boxplot (boite a moustache) pour l'affichage des erreurs
+En conclusion, les mesures effectuées démontrent que le code parallèle est bien optimisé pour la scalabilité et l'efficacité, répondant ainsi aux critères de qualité définis par les normes IEC. Ce qu'on calcul donne donc le bon résultat jusqu'à 10e-6.
 
 
 ## Conclusion
 
 Ce TP a permis d'explorer la programmation parallèle et ses implications sur la performance des algorithmes.  
 Nous avons vu que la parallélisation n'apporte pas toujours une amélioration linéaire et que des facteurs comme la synchronisation ou la communication entre threads influencent fortement les résultats.
+
+NB : j'ai utilisé l'IA pour rédiger et reformuler certaines de mes notes.
