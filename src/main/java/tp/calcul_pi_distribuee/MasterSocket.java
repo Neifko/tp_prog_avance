@@ -20,11 +20,11 @@ public class MasterSocket {
     public static void main(String[] args) throws Exception {
 
         // MC parameters
-        int totalCount = 1200000000; // total number of throws on a Worker 16000000
+        int totalCount = 2000000; // total number of throws on a Worker 16000000
         int total = 0; // total number of throws inside quarter of disk
         double pi;
 
-        String filename = "./out_mws_g26_4c.txt";
+        String filename = "./out_mws_g26_4c_d_final.txt";
 
         int numWorkers = maxServer;
         int thread_by_worker = 1;

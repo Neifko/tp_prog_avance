@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import tp.calcul_pi.Worker;
+import tp.calcul_pi.Pi;
 
 /**
  * Creates workers to run the Monte Carlo simulation
